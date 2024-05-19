@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: "This is a sample server User server.  You can find out more about\
@@ -14,26 +13,26 @@ info:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "user.swagger.io"
-basePath: "/v2" 
+basePath: "/v2"
 tags:
-- name: "user"
-  description: "Operations about users"
-  externalDocs:
-    description: "Find out more about users"
-    url: "http://swagger.io"
+  - name: "user"
+    description: "Operations about users"
+    externalDocs:
+      description: "Find out more about users"
+      url: "http://swagger.io"
 schemes:
-- "https"
-- "http"
+  - "https"
+  - "http"
 paths:
   /user:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Get all users"
       description: "Returns a list of all users"
       operationId: "getAllUsers"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         200:
           description: "successful operation"
@@ -41,21 +40,41 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/User"
+    post:
+      tags:
+        - "user"
+      summary: "Create user"
+      description: "Creates a new user"
+      operationId: "createUser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User object to be created"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
   /user/{id}:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Get user by id"
       description: "Returns a single user by id"
       operationId: "getUserByUsername"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The name of the user to retrieve"
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "The name of the user to retrieve"
+          required: true
+          type: "string"
       responses:
         200:
           description: "successful operation"
@@ -67,26 +86,26 @@ paths:
           description: "User not found"
     put:
       tags:
-      - "user"
+        - "user"
       summary: "Update user"
       description: "Updates an existing user"
       operationId: "updateUser"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The name of the user to update"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - name: "id"
+          in: "path"
+          description: "The name of the user to update"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Updated user object"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         400:
           description: "Invalid user data"
@@ -94,44 +113,23 @@ paths:
           description: "User not found"
     delete:
       tags:
-      - "user"
+        - "user"
       summary: "Delete user"
       description: "Deletes a user"
       operationId: "deleteUser"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The name of the user to delete"
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "The name of the user to delete"
+          required: true
+          type: "string"
       responses:
         400:
           description: "Invalid id supplied"
         404:
           description: "User not found"
-  /user:
-    post:
-      tags:
-      - "user"
-      summary: "Create user"
-      description: "Creates a new user"
-      operationId: "createUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "User object to be created"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
 definitions:
   User:
     type: "object"
@@ -146,5 +144,5 @@ definitions:
         type: "integer"
         format: "int32"
     required:
-    - "firstname"
-    - "lastname"
+      - "firstname"
+      - "lastname"

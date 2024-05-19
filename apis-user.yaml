@@ -1,148 +1,103 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server User server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
-  version: "1.0.7"
-  title: "Swagger User"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "user.swagger.io"
-basePath: "/v2"
-tags:
-  - name: "user"
-    description: "Operations about users"
-    externalDocs:
-      description: "Find out more about users"
-      url: "http://swagger.io"
+  description: "API de Perfiles de Usuarios"
+  version: "1.0.0"
+  title: "Perfiles de Usuarios API"
+host: "localhost:5500"
+basePath: "/"
 schemes:
-  - "https"
   - "http"
 paths:
-  /user:
+  /profile:
     get:
-      tags:
-        - "user"
-      summary: "Get all users"
-      description: "Returns a list of all users"
-      operationId: "getAllUsers"
-      produces:
-        - "application/json"
+      summary: "Obtener todos los perfiles"
+      operationId: "getProfiles"
       responses:
         200:
-          description: "successful operation"
+          description: "Lista de perfiles"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/User"
+              $ref: "#/definitions/Profile"
     post:
-      tags:
-        - "user"
-      summary: "Create user"
-      description: "Creates a new user"
-      operationId: "createUser"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
+      summary: "Crear un nuevo perfil"
+      operationId: "createProfile"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "User object to be created"
+        - name: "body"
+          in: "body"
+          description: "Datos del perfil a crear"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Profile"
       responses:
-        default:
-          description: "successful operation"
-  /user/{id}:
+        201:
+          description: "Perfil creado exitosamente"
+          schema:
+            $ref: "#/definitions/Profile"
+  /profile/{id}:
     get:
-      tags:
-        - "user"
-      summary: "Get user by id"
-      description: "Returns a single user by id"
-      operationId: "getUserByUsername"
-      produces:
-        - "application/json"
+      summary: "Obtener un perfil por ID"
+      operationId: "getProfileById"
       parameters:
         - name: "id"
           in: "path"
-          description: "The name of the user to retrieve"
+          description: "ID del perfil a obtener"
           required: true
-          type: "string"
+          type: "integer"
       responses:
         200:
-          description: "successful operation"
+          description: "Perfil encontrado"
           schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid id supplied"
+            $ref: "#/definitions/Profile"
         404:
-          description: "User not found"
+          description: "Perfil no encontrado"
     put:
-      tags:
-        - "user"
-      summary: "Update user"
-      description: "Updates an existing user"
-      operationId: "updateUser"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
+      summary: "Actualizar un perfil existente"
+      operationId: "updateProfile"
       parameters:
         - name: "id"
           in: "path"
-          description: "The name of the user to update"
+          description: "ID del perfil a actualizar"
           required: true
-          type: "string"
-        - in: "body"
-          name: "body"
-          description: "Updated user object"
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Datos del perfil actualizado"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Profile"
       responses:
-        400:
-          description: "Invalid user data"
+        200:
+          description: "Perfil actualizado exitosamente"
+          schema:
+            $ref: "#/definitions/Profile"
         404:
-          description: "User not found"
+          description: "Perfil no encontrado"
     delete:
-      tags:
-        - "user"
-      summary: "Delete user"
-      description: "Deletes a user"
-      operationId: "deleteUser"
-      produces:
-        - "application/json"
+      summary: "Eliminar un perfil"
+      operationId: "deleteProfile"
       parameters:
         - name: "id"
           in: "path"
-          description: "The name of the user to delete"
+          description: "ID del perfil a eliminar"
           required: true
-          type: "string"
+          type: "integer"
       responses:
-        400:
-          description: "Invalid id supplied"
+        200:
+          description: "Perfil eliminado exitosamente"
         404:
-          description: "User not found"
+          description: "Perfil no encontrado"
 definitions:
-  User:
+  Profile:
     type: "object"
     properties:
-      firstname:
+      id:
+        type: "integer"
+        format: "int32"
+      name:
         type: "string"
-      lastname:
-        type: "string"
-      gender:
+      last_name:
         type: "string"
       age:
         type: "integer"
         format: "int32"
-    required:
-      - "firstname"
-      - "lastname"
